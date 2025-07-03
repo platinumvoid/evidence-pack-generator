@@ -1,0 +1,7 @@
+{
+  "project": "Payments API",
+  "owner": "Security Engineering",
+  "control_set": "DORA",
+  "version": "0.1.0",
+  "git_commit": "local-dev"
+}

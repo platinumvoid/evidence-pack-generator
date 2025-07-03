@@ -1,0 +1,8 @@
+services:
+  evidence-pack-generator:
+    build: .
+    image: evidence-pack-generator:latest
+    command: ["generate", "--input", "/input", "--output", "/output"]
+    volumes:
+      - ./examples/basic:/input
+      - ./output:/output

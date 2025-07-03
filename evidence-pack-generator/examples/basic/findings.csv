@@ -1,0 +1,4 @@
+id,title,severity,status,description,source
+F-0001,TLS cipher suite hardening,high,open,Weak cipher suites detected,Nessus
+F-0002,Outdated dependency in API gateway,medium,in_progress,Package version flagged in dependency scan,SCA
+F-0003,Missing security header,low,open,Content-Security-Policy not set,Burp

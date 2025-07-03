@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Evidence Pack - {{ metadata.project }}</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --accent: #0b5fff;
+      --line: #e5e7eb;
+      --critical: #7f1d1d;
+      --high: #b45309;
+      --medium: #92400e;
+      --low: #065f46;
+      --info: #1e3a8a;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top right, #e4ebff 0%, var(--bg) 48%);
+      line-height: 1.45;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    h1, h2 {
+      margin: 0 0 12px;
+      letter-spacing: 0.2px;
+    }
+
+    h1 { font-size: 1.7rem; }
+    h2 { font-size: 1.1rem; color: #111827; }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .meta-item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #fafcff;
+    }
+
+    .meta-item .label {
+      color: var(--muted);
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #111827;
+    }
+
+    .severity {
+      border-radius: 999px;
+      display: inline-block;
+      padding: 2px 10px;
+      color: #fff;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .severity.critical { background: var(--critical); }
+    .severity.high { background: var(--high); }
+    .severity.medium { background: var(--medium); }
+    .severity.low { background: var(--low); }
+    .severity.info { background: var(--info); }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .footer {
+      color: var(--muted);
+      font-size: 0.83rem;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="card">
+      <h1>Internal Evidence Pack</h1>
+      <div class="meta-grid">
+        <div class="meta-item"><span class="label">Project</span>{{ metadata.project }}</div>
+        <div class="meta-item"><span class="label">Owner</span>{{ metadata.owner }}</div>
+        <div class="meta-item"><span class="label">Control Set</span>{{ metadata.control_set }}</div>
+        <div class="meta-item"><span class="label">Generated At</span>{{ metadata.generated_at }}</div>
+        <div class="meta-item"><span class="label">Version</span>{{ metadata.version }}</div>
+        <div class="meta-item"><span class="label">Git Commit</span>{{ metadata.git_commit or "n/a" }}</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Findings ({{ findings|length }})</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Severity</th>
+            <th>Status</th>
+            <th>Mapped Controls</th>
+            <th>Source</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for finding in findings %}
+          <tr>
+            <td>{{ finding.finding_id }}</td>
+            <td>{{ finding.title }}</td>
+            <td><span class="severity {{ finding.severity }}">{{ finding.severity }}</span></td>
+            <td>{{ finding.status }}</td>
+            <td>{{ finding.mapped_controls|join(", ") }}</td>
+            <td>{{ finding.source or "-" }}</td>
+            <td>{{ finding.description or "-" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Control Coverage Summary</h2>
+      {% if control_summary %}
+      <table>
+        <thead>
+          <tr>
+            <th>Control</th>
+            <th>Mapped Findings</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for control, count in control_summary.items() %}
+          <tr>
+            <td>{{ control }}</td>
+            <td>{{ count }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No control mappings were produced.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Evidence Files ({{ evidence_files|length }})</h2>
+      {% if evidence_files %}
+      <ul>
+        {% for file in evidence_files %}
+        <li>{{ file }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No evidence files were provided.</p>
+      {% endif %}
+    </section>
+
+    <p class="footer">
+      Reproducible evidence-pack output generated by evidence-pack-generator.
+    </p>
+  </main>
+</body>
+</html>
