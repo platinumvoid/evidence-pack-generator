@@ -3,3 +3,16 @@ __pycache__/
 .venv/
 extra.py
 extra-obf.py
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+output/
+build/
+*.egg-info/
+.DS_Store
