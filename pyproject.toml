@@ -26,3 +26,8 @@ evidence-pack-generator = "app.cli:run"
 
 [tool.setuptools.packages.find]
 include = ["app*"]
+
+[tool.setuptools.package-data]
+app = ["templates/*.j2"]
+
+
