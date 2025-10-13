@@ -4,7 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \\`r`n    PYTHONUNBUFFERED=1 \\`r`n    PIP_NO_CACH
 
 WORKDIR /app
 
-COPY pyproject.toml README.md /app/
+LABEL org.opencontainers.image.title="evidence-pack-generator" \`r`n      org.opencontainers.image.description="Containerized evidence pack generator" \`r`n      org.opencontainers.image.source="https://github.com/platinumvoid/evidence-pack-generator"`r`n`r`nCOPY pyproject.toml README.md /app/
 COPY app /app/app
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir .
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["api"]
+
 
 
 
