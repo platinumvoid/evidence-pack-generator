@@ -8,10 +8,11 @@ LABEL org.opencontainers.image.title="evidence-pack-generator" \`r`n      org.op
 COPY app /app/app
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
-RUN pip install --no-cache-dir .
+RUN adduser --disabled-password --gecos "" --home /nonexistent --shell /usr/sbin/nologin appuser && pip install --no-cache-dir .
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["api"]
+
 
 
 
