@@ -18,3 +18,4 @@ CMD ["api"]
 
 
 
+USER appuser
