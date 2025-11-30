@@ -10,6 +10,8 @@ COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 RUN adduser --disabled-password --gecos "" --home /nonexistent --shell /usr/sbin/nologin appuser && pip install --no-cache-dir . && chown -R appuser:appuser /app
 
+EXPOSE 8000
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["api"]
 
