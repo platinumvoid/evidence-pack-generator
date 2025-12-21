@@ -12,7 +12,7 @@ RUN adduser --disabled-password --gecos "" --home /nonexistent --shell /usr/sbin
 
 EXPOSE 8000
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 CMD python -c "import urllib.request; urllib.request.urlopen(\"http://127.0.0.1:8000/health\", timeout=2)" || exit 1`r`n`r`nENTRYPOINT ["/entrypoint.sh"]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 CMD python -c "import urllib.request; urllib.request.urlopen(\"http://127.0.0.1:8000/health\", timeout=2)" || exit 1`r`n`r`nSTOPSIGNAL SIGTERM`r`n`r`nENTRYPOINT ["/entrypoint.sh"]
 CMD ["api"]
 
 
@@ -21,4 +21,5 @@ CMD ["api"]
 
 
 USER appuser
+
 
