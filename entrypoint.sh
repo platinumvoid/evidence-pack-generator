@@ -4,7 +4,7 @@ set -eu
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8000}"
 LOG_LEVEL="${LOG_LEVEL:-info}"
-WORKERS="${WORKERS:-1}"
+WORKERS="${WORKERS:-1}"`r`nAPP_MODULE="${APP_MODULE:-app.main:app}"
 
 if [ "$#" -eq 0 ]; then
   set -- api
@@ -18,7 +18,7 @@ case "$cmd" in
     exec python -m app.cli generate "$@"
     ;;
   api|serve)
-    exec uvicorn app.main:app \
+    exec uvicorn "$APP_MODULE" \\
       --host "$HOST" \
       --port "$PORT" \
       --log-level "$LOG_LEVEL" \
@@ -31,3 +31,4 @@ case "$cmd" in
     exec "$cmd" "$@"
     ;;
 esac
+
