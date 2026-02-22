@@ -4,7 +4,18 @@ set -eu
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8000}"
 LOG_LEVEL="${LOG_LEVEL:-info}"
-WORKERS="${WORKERS:-1}"`r`nAPP_MODULE="${APP_MODULE:-app.main:app}"
+WORKERS="${WORKERS:-1}"
+APP_MODULE="${APP_MODULE:-app.main:app}"
+
+if ! printf "%s" "$PORT" | grep -Eq "^[0-9]+$"; then
+  echo "PORT must be numeric" >&2
+  exit 2
+fi
+
+if ! printf "%s" "$WORKERS" | grep -Eq "^[1-9][0-9]*$"; then
+  echo "WORKERS must be a positive integer" >&2
+  exit 2
+fi
 
 if [ "$#" -eq 0 ]; then
   set -- api
@@ -18,7 +29,7 @@ case "$cmd" in
     exec python -m app.cli generate "$@"
     ;;
   api|serve)
-    exec uvicorn "$APP_MODULE" \\
+    exec uvicorn "$APP_MODULE" \
       --host "$HOST" \
       --port "$PORT" \
       --log-level "$LOG_LEVEL" \
@@ -31,5 +42,3 @@ case "$cmd" in
     exec "$cmd" "$@"
     ;;
 esac
-
-
