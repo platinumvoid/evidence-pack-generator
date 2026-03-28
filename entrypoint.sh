@@ -5,7 +5,7 @@ HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8000}"
 LOG_LEVEL="${LOG_LEVEL:-info}"
 WORKERS="${WORKERS:-1}"
-APP_MODULE="${APP_MODULE:-app.main:app}"
+APP_MODULE="${APP_MODULE:-app.main:app}"`r`nUVICORN_EXTRA_ARGS="${UVICORN_EXTRA_ARGS:-}"
 
 if ! printf "%s" "$PORT" | grep -Eq "^[0-9]+$"; then
   echo "PORT must be numeric" >&2
@@ -33,7 +33,7 @@ case "$cmd" in
       --host "$HOST" \
       --port "$PORT" \
       --log-level "$LOG_LEVEL" \
-      --workers "$WORKERS"
+      --workers "$WORKERS" `r`n      $UVICORN_EXTRA_ARGS
     ;;
   help|-h|--help)
     echo "Usage: /entrypoint.sh [generate|api|serve|help|<raw command>]"
@@ -42,3 +42,4 @@ case "$cmd" in
     exec "$cmd" "$@"
     ;;
 esac
+
