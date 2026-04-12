@@ -5,7 +5,8 @@ HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8000}"
 LOG_LEVEL="${LOG_LEVEL:-info}"
 WORKERS="${WORKERS:-1}"
-APP_MODULE="${APP_MODULE:-app.main:app}"`r`nUVICORN_EXTRA_ARGS="${UVICORN_EXTRA_ARGS:-}"
+APP_MODULE="${APP_MODULE:-app.main:app}"
+UVICORN_EXTRA_ARGS="${UVICORN_EXTRA_ARGS:-}"
 
 if ! printf "%s" "$PORT" | grep -Eq "^[0-9]+$"; then
   echo "PORT must be numeric" >&2
@@ -29,17 +30,19 @@ case "$cmd" in
     exec python -m app.cli generate "$@"
     ;;
   api|serve)
+    # shellcheck disable=SC2086
     exec uvicorn "$APP_MODULE" \
       --host "$HOST" \
       --port "$PORT" \
       --log-level "$LOG_LEVEL" \
-      --workers "$WORKERS" `r`n      $UVICORN_EXTRA_ARGS
+      --workers "$WORKERS" \
+      $UVICORN_EXTRA_ARGS
     ;;
   help|-h|--help)
     echo "Usage: /entrypoint.sh [generate|api|serve|help|<raw command>]"
+    echo "Env: HOST PORT LOG_LEVEL WORKERS APP_MODULE UVICORN_EXTRA_ARGS"
     ;;
   *)
     exec "$cmd" "$@"
     ;;
 esac
-
