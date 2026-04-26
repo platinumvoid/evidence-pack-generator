@@ -1,8 +1,7 @@
 services:
-  evidence-pack-generator:
+  evidence-pack-api:
     build: .
     image: evidence-pack-generator:latest
-    command: ["generate", "--input", "/input", "--output", "/output"]
-    volumes:
-      - ./examples/basic:/input
-      - ./output:/output
+    command: ["api"]
+    ports:
+      - "8000:8000"
