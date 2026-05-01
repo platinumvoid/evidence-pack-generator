@@ -5,3 +5,11 @@ services:
     command: ["api"]
     ports:
       - "8000:8000"
+
+  evidence-pack-generator:
+    image: evidence-pack-generator:latest
+    command: ["generate", "--input", "/input", "--output", "/output"]
+    profiles: ["batch"]
+    volumes:
+      - ./examples/basic:/input
+      - ./output:/output
