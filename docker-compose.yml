@@ -3,6 +3,13 @@ services:
     build: .
     image: evidence-pack-generator:latest
     command: ["api"]
+    init: true
+    restart: unless-stopped
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8000
+      LOG_LEVEL: info
+      WORKERS: 1
     ports:
       - "8000:8000"
 
