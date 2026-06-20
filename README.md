@@ -97,3 +97,24 @@ Expected files:
 - `GET /control-sets`: supported control mapping sets
 - `POST /generate/path`: generate from mounted input/output paths
 - `POST /generate/upload`: upload `metadata.json`, `findings.csv`, and optional evidence files
+
+## Docker Compose Usage
+
+Run API service (default):
+
+```bash
+docker compose up --build
+```
+
+Run a one-off batch generation job:
+
+```bash
+docker compose --profile batch run --rm evidence-pack-generator
+```
+
+Container hardening highlights:
+
+- Non-root runtime user in image
+- Healthcheck on /health
+- Read-only root filesystem and tmpfs /tmp in compose
+- no-new-privileges security option
