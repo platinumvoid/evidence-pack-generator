@@ -9,7 +9,8 @@ WORKDIR /app
 
 LABEL org.opencontainers.image.title="evidence-pack-generator" \
       org.opencontainers.image.description="Containerized evidence pack generator" \
-      org.opencontainers.image.source="https://github.com/platinumvoid/evidence-pack-generator"
+  org.opencontainers.image.source="https://github.com/platinumvoid/evidence-pack-generator" \
+      org.opencontainers.image.licenses="MIT"
 
 COPY pyproject.toml README.md /app/
 COPY app /app/app
